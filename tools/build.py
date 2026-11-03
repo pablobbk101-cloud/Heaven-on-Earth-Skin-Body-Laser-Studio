@@ -5,11 +5,17 @@ Run from anywhere:  python3 tools/build.py
 Writes the .html files into the repository root. No dependencies.
 All treatments, prices, text, photos and the logo come from heavenonearthskinandbody.co.za.
 """
+import hashlib
 import html
 import json
 import os
+import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+VERSIONS = {}
+for _a in ("styles.css", "site.js", "book.js"):
+    with open(os.path.join(ROOT, _a), "rb") as _f:
+        VERSIONS[_a] = hashlib.sha1(_f.read()).hexdigest()[:8]
 
 # ------------------------------------------------------------------ studio facts (from the current site)
 STUDIO = "Heaven On Earth Skin, Body, Laser Studio"
@@ -392,6 +398,12 @@ def page(filename, title, description, active, body, scripts=("site.js",), head_
         "header": header(active), "body": body, "footer": footer(),
         "scripts": "\n".join('<script src="%s" defer></script>' % s for s in scripts),
     }
+    # clean links (Cloudflare serves about.html at /about, so .html links cost a redirect on every click)
+    doc = re.sub(r'href="index\.html', 'href="./', doc)
+    doc = re.sub(r'href="([a-z0-9-]+)\.html', r'href="\1', doc)
+    # version stamps so phones fetch the new CSS and JS after every update
+    for asset in ("styles.css", "site.js", "book.js"):
+        doc = doc.replace('"%s"' % asset, '"%s?v=%s"' % (asset, VERSIONS[asset]))
     with open(os.path.join(ROOT, filename), "w", encoding="utf-8") as f:
         f.write(doc)
 
@@ -466,7 +478,7 @@ def tcards():
         mp=min_price(s)
         out.append('<li><a class="tcard" href="%s"><span class="tcard-img">%s</span><span class="tcard-body"><span class="tcard-name">%s</span>'
                    '<span class="tcard-groups">%s</span>%s</span></a></li>'
-                   % (s["file"], img(s["img"], alt=""), esc(s["name"]), esc(", ".join(groups)),
+                   % (s["file"], img(s["img"], lazy=False, alt=""), esc(s["name"]), esc(", ".join(groups)),
                       ('<span class="tcard-from">From %s</span>' % mp) if mp else '<span class="tcard-from">Ask for a quote</span>'))
     return '<ul class="cards" aria-label="Treatment areas">%s</ul>' % "".join(out)
 

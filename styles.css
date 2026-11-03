@@ -557,3 +557,130 @@ a:hover{color:var(--flamingo)}
 /* grid children must be allowed to shrink, or the date strip widens the page */
 .book-grid>*{min-width:0}
 h1[tabindex="-1"]:focus,h2[tabindex="-1"]:focus,h3[tabindex="-1"]:focus,.done-box:focus,.notice:focus{outline:none}
+
+/* ===================== v4: smooth motion ===================== */
+:root{--ease:cubic-bezier(.22,1,.36,1);--ease-soft:cubic-bezier(.4,0,.2,1)}
+html{-webkit-tap-highlight-color:transparent}
+.dates{scrollbar-width:none}
+.dates::-webkit-scrollbar{display:none}
+
+/* page-to-page: content cross-fades and rises, header, banner and dock stay put */
+@view-transition{navigation:auto}
+.concept-bar{view-transition-name:concept-bar}
+.site-header{view-transition-name:site-header}
+.dock{view-transition-name:dock}
+.concept-chip{view-transition-name:concept-chip}
+::view-transition-old(root){animation:vt-out .22s var(--ease-soft) both}
+::view-transition-new(root){animation:vt-in .5s var(--ease) both}
+@keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(16px)}}
+
+/* page heads and hero copy rise in on load (CSS only, so nothing flickers) */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.page-head .crumbs,.page-head h1,.page-head .lede,.page-head .strap,.page-head .btn-row,.page-head .photo,.h2-copy>*{animation:rise .8s var(--ease) both}
+.page-head h1,.h2-copy>h1{animation-delay:.06s}
+.page-head .strap,.h2-copy>.strap{animation-delay:.12s}
+.page-head .lede,.h2-copy>.lede{animation-delay:.18s}
+.page-head .btn-row,.h2-copy>.btn-row{animation-delay:.26s}
+.page-head .photo{animation-delay:.2s}
+.page-head .orbs .orb{animation-duration:1s}
+
+/* scroll reveal (classes added by site.js only for content below the fold) */
+.js .rv{opacity:0;transform:translate3d(0,26px,0);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--d,0) * 85ms);will-change:opacity,transform}
+.js .rv.in{opacity:1;transform:none}
+.cards>.rv{transform:translate3d(0,34px,0) scale(.97)}
+.cards>.rv.in{transform:none}
+.mini-team>.rv,.team>.rv{transform:translate3d(0,18px,0) scale(.92)}
+.mini-team>.rv.in,.team>.rv.in{transform:none}
+
+/* images fade in as they arrive */
+img{transition:opacity .7s var(--ease-soft)}
+img.img-wait{opacity:0}
+
+/* header */
+.site-header{transition:box-shadow .4s var(--ease-soft),background-color .4s var(--ease-soft)}
+.site-header.scrolled{box-shadow:0 10px 30px -18px rgba(143,33,72,.35);background:rgba(251,238,242,.97)}
+
+/* buttons, links, chips: one consistent eased feel */
+.btn{transition:background-color .35s var(--ease-soft),color .35s var(--ease-soft),border-color .35s var(--ease-soft),box-shadow .35s var(--ease-soft),transform .35s var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.btn-solid:hover{box-shadow:0 12px 24px -12px rgba(143,33,72,.6)}
+.btn:active{transform:translateY(0) scale(.97);transition-duration:.1s}
+.nav-list a.nav-link,.sub a,.others a,.tab,.date,.slot,.pick label,.text-link,.site-footer a,.dock a{transition:background-color .3s var(--ease-soft),color .3s var(--ease-soft),border-color .3s var(--ease-soft),box-shadow .3s var(--ease-soft),transform .3s var(--ease)}
+.tab:active,.date:active,.slot:active:not(:disabled),.dock a:active,.others a:active{transform:scale(.95);transition-duration:.1s}
+.tcard{transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .4s var(--ease-soft)}
+.tcard-img img,.svc-orb img,.photo img,.mini-portrait img,.team .portrait img{transition:transform .8s var(--ease),opacity .7s var(--ease-soft)}
+.tcard:hover .tcard-img img,.svc-row:hover .svc-orb img,.photo:hover img{transform:scale(1.06)}
+.mini-team a:hover .mini-portrait img,.team li:hover .portrait img{transform:scale(1.08)}
+.mini-portrait,.team .portrait{transition:box-shadow .4s var(--ease-soft)}
+.mini-team a:hover .mini-portrait{box-shadow:0 0 0 2px var(--flamingo),0 14px 30px -14px rgba(143,33,72,.6)}
+.chip{transition:transform .4s var(--ease),box-shadow .4s var(--ease-soft)}
+.svc-row .go{transition:background-color .35s var(--ease-soft),color .35s var(--ease-soft),transform .35s var(--ease)}
+
+/* hero: gentle parallax on the main photo and slow floating price chips */
+.arch img,.page-head .orb-main img{transform:translate3d(0,var(--py,0px),0) scale(1.1);will-change:transform}
+@keyframes float{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-7px,0)}}
+.chip.c1{animation:chip-in .7s .45s var(--ease) both,float 5.5s 1.4s ease-in-out infinite alternate}
+.chip.c2{animation:chip-in .7s .6s var(--ease) both,float 6.5s 1.6s ease-in-out infinite alternate}
+.chip.c3{animation:chip-in .7s .75s var(--ease) both,float 6s 1.8s ease-in-out infinite alternate}
+.chip:hover{animation-play-state:paused}
+.h2-offer .dot{animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(179,48,90,.18)}50%{box-shadow:0 0 0 7px rgba(179,48,90,.05)}}
+
+/* desktop dropdown: fades and drops in instead of snapping */
+@media (min-width:901px){
+  .sub{display:block;visibility:hidden;opacity:0;transform:translate3d(0,10px,0) scale(.98);transform-origin:20% 0;transition:opacity .25s var(--ease-soft),transform .3s var(--ease),visibility 0s linear .3s;pointer-events:none}
+  .has-sub:hover>.sub,.has-sub.open>.sub,.has-sub:focus-within>.sub{display:block;visibility:visible;opacity:1;transform:none;transition-delay:0s;pointer-events:auto}
+  .sub li{opacity:0;transform:translate3d(0,6px,0);transition:opacity .3s var(--ease-soft),transform .35s var(--ease)}
+  .has-sub:hover .sub li,.has-sub.open .sub li,.has-sub:focus-within .sub li{opacity:1;transform:none}
+  .has-sub:hover .sub li:nth-child(2),.has-sub.open .sub li:nth-child(2),.has-sub:focus-within .sub li:nth-child(2){transition-delay:.03s}
+  .has-sub:hover .sub li:nth-child(3),.has-sub.open .sub li:nth-child(3),.has-sub:focus-within .sub li:nth-child(3){transition-delay:.06s}
+  .has-sub:hover .sub li:nth-child(4),.has-sub.open .sub li:nth-child(4),.has-sub:focus-within .sub li:nth-child(4){transition-delay:.09s}
+  .has-sub:hover .sub li:nth-child(5),.has-sub.open .sub li:nth-child(5),.has-sub:focus-within .sub li:nth-child(5){transition-delay:.12s}
+  .has-sub:hover .sub li:nth-child(6),.has-sub.open .sub li:nth-child(6),.has-sub:focus-within .sub li:nth-child(6){transition-delay:.15s}
+  .sub-toggle svg{transition:transform .35s var(--ease)}
+  .has-sub:hover .sub-toggle svg{transform:rotate(180deg)}
+}
+
+/* phone menu: slides down, links follow one after another, slides back up on close */
+@media (max-width:900px){
+  #nav.open{animation:nav-in .42s var(--ease) both;transform-origin:top}
+  #nav.open.closing{animation:nav-out .26s var(--ease-soft) both}
+  #nav.open .nav-list>li,#nav.open .nav-cta{animation:rise .5s var(--ease) both}
+  #nav.open .nav-list>li:nth-child(2){animation-delay:.04s}
+  #nav.open .nav-list>li:nth-child(3){animation-delay:.08s}
+  #nav.open .nav-list>li:nth-child(4){animation-delay:.12s}
+  #nav.open .nav-cta{animation-delay:.16s}
+  #nav.open.closing .nav-list>li,#nav.open.closing .nav-cta{animation:none}
+  .dock{animation:dock-in .7s .3s var(--ease) both}
+  .cards{scroll-behavior:smooth}
+}
+@keyframes nav-in{from{opacity:0;transform:translate3d(0,-12px,0)}to{opacity:1;transform:none}}
+@keyframes nav-out{from{opacity:1;transform:none}to{opacity:0;transform:translate3d(0,-10px,0)}}
+@keyframes dock-in{from{opacity:0;transform:translate3d(0,24px,0)}to{opacity:1;transform:none}}
+
+/* tabs, booking steps, lists: content slides in from the direction you moved */
+@keyframes in-right{from{opacity:0;transform:translate3d(22px,0,0)}to{opacity:1;transform:none}}
+@keyframes in-left{from{opacity:0;transform:translate3d(-22px,0,0)}to{opacity:1;transform:none}}
+@keyframes in-up{from{opacity:0;transform:translate3d(0,12px,0)}to{opacity:1;transform:none}}
+.panel-in,.step-in{animation:in-right .5s var(--ease) both}
+.panel-in-back,.step-in-back{animation:in-left .5s var(--ease) both}
+#pick-list.step-in,#slots.step-in,.done-box.step-in{animation:in-up .45s var(--ease) both}
+.stepper li{transition:border-color .35s var(--ease-soft),color .35s var(--ease-soft)}
+.stepper .n{transition:background-color .35s var(--ease-soft),color .35s var(--ease-soft),transform .4s var(--ease)}
+.stepper li[aria-current="step"] .n{transform:scale(1.08)}
+@keyframes flash{0%{background:rgba(231,163,183,.55)}100%{background:rgba(231,163,183,0)}}
+.summary dd.flash{animation:flash 1s var(--ease-soft);border-radius:6px}
+.notice:not([hidden]){animation:in-up .45s var(--ease) both}
+.field .err:not(:empty){animation:in-up .3s var(--ease) both}
+
+/* respect people who switch motion off */
+@media (prefers-reduced-motion:reduce){
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .arch img,.page-head .orb-main img{transform:none}
+  .js .rv{opacity:1;transform:none}
+  img.img-wait{opacity:1}
+}
+/* slide-ins must never widen the page on phones */
+main{overflow-x:clip}

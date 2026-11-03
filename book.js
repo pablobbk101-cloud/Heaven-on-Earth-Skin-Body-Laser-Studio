@@ -24,7 +24,7 @@
       b.className = 'tab';
       b.textContent = c.name;
       b.setAttribute('aria-pressed', c.slug === state.cat ? 'true' : 'false');
-      b.addEventListener('click', function () { state.cat = c.slug; renderCats(); renderItems(); });
+      b.addEventListener('click', function () { state.cat = c.slug; renderCats(); renderItems(); animateIn(pickList, false); });
       catTabs.appendChild(b);
     });
   }
@@ -87,7 +87,7 @@
       b.setAttribute('aria-pressed', state.date === dateKey(d) ? 'true' : 'false');
       b.innerHTML = '<span class="wd">' + wdNames[d.getDay()] + '</span><span class="dn">' + d.getDate() + '</span><span class="mo">' + moNames[d.getMonth()] + '</span>';
       b.setAttribute('aria-label', dateLabel(d));
-      b.addEventListener('click', function () { state.date = dateKey(d); state.time = null; renderDates(); renderSlots(); update(); });
+      b.addEventListener('click', function () { state.date = dateKey(d); state.time = null; renderDates(); renderSlots(); update(); animateIn(slotWrap, false); });
       dateWrap.appendChild(b);
     });
   }
@@ -134,12 +134,18 @@
   function priceNote(it) {
     return it.price === 'Varies' ? 'Price confirmed by the studio' : it.price;
   }
+  var lastSummary = {};
+  function setSum(id, text) {
+    var el = document.getElementById(id);
+    if (el.textContent !== text) { el.textContent = text; if (lastSummary[id] !== undefined) flash(el); }
+    lastSummary[id] = text;
+  }
   function update() {
     var it = state.item ? byId[state.item] : null;
-    el('sum-treatment').textContent = it ? it.name : 'Not chosen yet';
-    el('sum-cat').textContent = it ? it.catName : '';
-    el('sum-when').textContent = state.date && state.time ? dateLabel(days.filter(function (d) { return dateKey(d) === state.date; })[0]) + ' at ' + state.time : 'Not chosen yet';
-    el('sum-price').textContent = it ? priceNote(it) + (it.dur ? ' · ' + it.dur : '') : '';
+    setSum('sum-treatment', it ? it.name : 'Not chosen yet');
+    setSum('sum-cat', it ? it.catName : '');
+    setSum('sum-when', state.date && state.time ? dateLabel(days.filter(function (d) { return dateKey(d) === state.date; })[0]) + ' at ' + state.time : 'Not chosen yet');
+    setSum('sum-price', it ? priceNote(it) + (it.dur ? ', ' + it.dur : '') : '');
     el('next-treatment').disabled = !it;
     el('next-when').disabled = !(state.date && state.time);
   }
@@ -167,9 +173,24 @@
   }
 
   /* ---------- navigation between steps ---------- */
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function animateIn(el, back) {
+    if (reduceMotion || !el) return;
+    el.classList.remove('step-in', 'step-in-back');
+    void el.offsetWidth;
+    el.classList.add(back ? 'step-in-back' : 'step-in');
+  }
+  function flash(el) {
+    if (reduceMotion || !el) return;
+    el.classList.remove('flash');
+    void el.offsetWidth;
+    el.classList.add('flash');
+  }
   function go(n) {
+    var back = n < current;
     current = n;
     stepEls.forEach(function (s, i) { s.hidden = i !== n; });
+    animateIn(stepEls[n], back);
     stepperItems.forEach(function (li, i) {
       li.classList.toggle('done', i < n);
       if (i === n) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
@@ -189,6 +210,7 @@
   el('confirm').addEventListener('click', function () {
     el('review-wrap').hidden = true;
     el('done').hidden = false;
+    animateIn(el('done'), false);
     el('done').focus();
   });
   el('restart').addEventListener('click', function () {
