@@ -684,3 +684,23 @@ img.img-wait{opacity:0}
 }
 /* slide-ins must never widen the page on phones */
 main{overflow-x:clip}
+
+/* ===================== v5: Book now buttons that pop ===================== */
+.menu-row{grid-template-columns:1fr auto auto auto;align-items:center}
+.menu-row .bk{display:inline-flex;align-items:center;justify-content:center;padding:9px 18px;border-radius:999px;background:var(--flamingo);color:#fff;font-weight:700;font-size:.9rem;line-height:1;text-decoration:none;white-space:nowrap;box-shadow:0 8px 18px -8px rgba(179,48,90,.7),inset 0 1px 0 rgba(255,255,255,.25);transition:background-color .3s var(--ease-soft),box-shadow .35s var(--ease-soft),transform .35s var(--ease)}
+.menu-row .bk:hover,.menu-row .bk:focus-visible{background:var(--berry);color:#fff;transform:translateY(-2px);box-shadow:0 14px 24px -10px rgba(143,33,72,.75)}
+.menu-row .bk:active{transform:translateY(0) scale(.96);transition-duration:.1s}
+.menu-row:hover .bk{box-shadow:0 0 0 4px rgba(231,163,183,.45),0 12px 22px -10px rgba(179,48,90,.75)}
+.menu-row .pr{font-size:1.05rem}
+@media (max-width:640px){
+  .menu-row{grid-template-columns:1fr auto;align-items:center;row-gap:8px}
+  .menu-row .bk{grid-column:2;grid-row:2;justify-self:end;padding:8px 14px;font-size:.84rem}
+}
+@media (prefers-reduced-motion:reduce){.menu-row .bk:hover{transform:none}}
+@media (max-width:640px){
+  .menu-row{grid-template-columns:minmax(0,1fr) auto auto;column-gap:12px;row-gap:2px}
+  .menu-row .nm{grid-column:1;grid-row:1}
+  .menu-row .du{grid-column:1;grid-row:2}
+  .menu-row .pr{grid-column:2;grid-row:1/span 2;align-self:center}
+  .menu-row .bk{grid-column:3;grid-row:1/span 2;align-self:center;padding:8px 13px;font-size:.82rem}
+}

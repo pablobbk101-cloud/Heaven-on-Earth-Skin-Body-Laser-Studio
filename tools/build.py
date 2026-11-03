@@ -587,7 +587,7 @@ def menu_rows(slug, gi, subs):
             tid = IDS[(slug, gi, si, ri)]
             lis.append(
                 '<li class="menu-row"><span class="nm">%s</span><span class="du">%s</span><span class="pr">%s</span>'
-                '<a class="bk" href="book.html?t=%s" aria-label="Book %s"> Book</a></li>'
+                '<a class="bk" href="book.html?t=%s" aria-label="Book %s">Book now</a></li>'
                 % (esc(name), esc(dur or ""), money(price), tid, esc(name)))
         out.append('<ul class="menu-list">%s</ul>' % "".join(lis))
     return "".join(out)
