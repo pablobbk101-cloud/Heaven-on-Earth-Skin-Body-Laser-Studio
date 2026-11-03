@@ -554,3 +554,6 @@ a:hover{color:var(--flamingo)}
   .h2-section:not(.h2-team){background:radial-gradient(45% 70% at 100% 0%,#f6d3de 0%,rgba(246,211,222,0) 70%),linear-gradient(180deg,var(--porcelain) 0%,var(--blush) 100%)}
   .book-grid{padding-top:8px}
 }
+/* grid children must be allowed to shrink, or the date strip widens the page */
+.book-grid>*{min-width:0}
+h1[tabindex="-1"]:focus,h2[tabindex="-1"]:focus,h3[tabindex="-1"]:focus,.done-box:focus,.notice:focus{outline:none}
