@@ -754,3 +754,6 @@ main{overflow-x:clip}
   .h2-copy>.rating{margin-top:14px;font-size:.86rem}
   .menu-row .ds{font-size:.84rem}
 }
+/* swipe cards stay card-sized on tablets */
+@media (max-width:900px){.specs li{flex-basis:min(64%,290px)}.cards li{flex-basis:min(54%,260px)}}
+@media (max-width:420px){.cards li{flex-basis:60%}.specs li{flex-basis:70%}}
