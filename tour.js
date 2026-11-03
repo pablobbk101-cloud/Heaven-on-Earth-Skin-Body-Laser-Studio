@@ -172,13 +172,17 @@
       ui.card.querySelector('.tour-actions').insertBefore(extra, next);
     } else if (!step.last && extra) { extra.remove(); }
     el = target(step);
+    /* on phones the quick-action bar steps aside during the tour, unless this step is about it */
+    var dockStep = !!(el && el.closest && el.closest('.dock'));
+    document.documentElement.classList.toggle('tour-dock', dockStep);
+    ui.card.classList.toggle('sheet', window.innerWidth < 700);
     ui.card.classList.remove('in');
     void ui.card.offsetWidth;
     ui.card.classList.add('in');
     if (el) {
       var r = el.getBoundingClientRect();
       var phone = window.innerWidth < 700;
-      var room = window.innerHeight - (phone ? ui.card.offsetHeight + 110 : 0);
+      var room = window.innerHeight - (phone ? ui.card.offsetHeight + (dockStep ? 110 : 30) : 0);
       var wantTop = r.height > room * 0.8 ? 90 : Math.max(80, (room - r.height) / 2);
       var y = window.scrollY + r.top - wantTop;
       window.scrollTo({ top: Math.max(0, y), behavior: reduce ? 'auto' : 'smooth' });
@@ -204,7 +208,7 @@
     current = -1;
     el = null;
     store(null);
-    document.documentElement.classList.remove('touring');
+    document.documentElement.classList.remove('touring', 'tour-dock');
     if (ui) { ui.card.remove(); ui.spot.remove(); ui.shade.remove(); ui = null; }
     try { var u = new URL(location.href); if (u.searchParams.has('tour')) { u.searchParams.delete('tour'); history.replaceState(null, '', u.pathname + u.search + u.hash); } } catch (e) {}
   }
