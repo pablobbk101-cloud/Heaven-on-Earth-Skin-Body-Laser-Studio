@@ -547,3 +547,10 @@ a:hover{color:var(--flamingo)}
   .svc-row{padding:34px 24px;margin-inline:-24px;border-radius:24px;transition:background .25s}
   .svc-row:hover{background:var(--blush)}
 }
+.concept-chip{background:var(--berry);box-shadow:0 6px 16px rgba(143,33,72,.35)}
+@media (min-width:901px){
+  .menu-wrap{background:linear-gradient(180deg,var(--blush) 0%,#fdf6f8 100%);padding-top:8px}
+  .menu-wrap>.wrap{background:#fff;border:1px solid var(--rose-line);border-radius:30px;padding:36px clamp(28px,4vw,52px) 44px;box-shadow:0 30px 60px -40px rgba(143,33,72,.5)}
+  .h2-section:not(.h2-team){background:radial-gradient(45% 70% at 100% 0%,#f6d3de 0%,rgba(246,211,222,0) 70%),linear-gradient(180deg,var(--porcelain) 0%,var(--blush) 100%)}
+  .book-grid{padding-top:8px}
+}
