@@ -438,3 +438,112 @@ p{margin:0 0 1em;max-width:62ch}
 @media (max-width:420px){.cards li{flex-basis:60%}}
 @media (max-width:380px){.brand-name{display:inline;font-size:1.15rem}.brand{gap:10px}.logo-crop{width:46px}}
 @media (max-width:330px){.brand-name{display:none}}
+
+/* ===================== v3: warm flamingo carried through every page ===================== */
+:root{--blush-2:#f6dbe4;--rose-line:#efd2dc;--plum:#4a1530}
+a{color:var(--berry)}
+a:hover{color:var(--flamingo)}
+:focus-visible{outline-color:var(--flamingo)}
+.text-link{color:var(--berry)}
+
+/* concept bar + header */
+.concept-bar{background:linear-gradient(90deg,var(--plum),var(--berry))}
+.site-header{background:rgba(251,238,242,.92);border-bottom-color:var(--rose-line)}
+.nav-list a.nav-link:hover,.nav-list a.nav-link[aria-current="page"]{background:#fff;color:var(--berry);box-shadow:0 0 0 1px var(--rose-line)}
+.sub{border-color:var(--rose-line);box-shadow:0 18px 40px rgba(143,33,72,.16)}
+.sub a:hover,.sub a[aria-current="page"]{background:var(--blush);color:var(--berry)}
+.sub .sub-all{border-top-color:var(--rose-line)}
+.menu-btn{border-color:var(--berry);color:var(--berry)}
+
+/* buttons */
+.btn-line{border-color:var(--berry);color:var(--berry)}
+.btn-line:hover{background:var(--berry);border-color:var(--berry);color:#fff}
+
+/* inner page heads get the same glow as the home hero */
+.page-head{background:radial-gradient(60% 90% at 88% 0%,#f6d3de 0%,rgba(246,211,222,0) 62%),radial-gradient(55% 80% at 0% 100%,#d7ecea 0%,rgba(215,236,234,0) 65%),var(--blush);padding-bottom:clamp(36px,5vw,64px)}
+.page-head h1{color:var(--teal-deep)}
+.page-head .orb-side{border-color:var(--blush);background:var(--blush)}
+.page-head .orb-main{box-shadow:0 30px 60px -24px rgba(143,33,72,.4)}
+.crumbs a{color:var(--berry)}
+
+/* price lists */
+.menu-wrap{background:linear-gradient(180deg,var(--porcelain),#fff 40%)}
+.tab{border-color:var(--rose-line)}
+.tab:hover{border-color:var(--flamingo);color:var(--berry)}
+.tab[aria-selected="true"],.tab[aria-pressed="true"]{background:var(--flamingo);border-color:var(--flamingo);color:#fff;box-shadow:0 8px 18px -8px rgba(179,48,90,.55)}
+.menu-sub,.pick-group{color:var(--berry)}
+.panel-title{color:var(--teal-deep)}
+.menu-row{border-bottom-color:var(--rose-line)}
+.menu-row .bk{color:var(--flamingo)}
+.menu-row:hover{background:linear-gradient(90deg,rgba(251,238,242,0),var(--blush) 30%,rgba(251,238,242,0))}
+.ems{border-color:var(--rose-line);background:var(--blush)}
+.others a{border-color:var(--rose-line)}
+.others a:hover{border-color:var(--flamingo);color:var(--berry)}
+.section-tint{background:var(--blush)}
+
+/* home sections */
+.h2-section:not(.h2-team){background:radial-gradient(50% 60% at 100% 0%,#fbe3ea 0%,rgba(251,227,234,0) 70%),var(--porcelain)}
+.tcard{border-color:var(--rose-line)}
+.svc-row{border-top-color:var(--rose-line)}
+.svc-row:last-child{border-bottom-color:var(--rose-line)}
+.svc-orb{box-shadow:0 0 0 4px #fff,0 0 0 6px var(--rose)}
+
+/* visit + cta bands: deep berry instead of teal */
+.visit{background:radial-gradient(60% 80% at 100% 0%,rgba(231,163,183,.35),rgba(231,163,183,0) 60%),linear-gradient(150deg,var(--plum) 0%,#6a1a3d 55%,var(--berry) 100%);color:#f6dfe7}
+.visit .details li{border-bottom-color:rgba(255,220,232,.22)}
+.visit .details .k{color:#e9aec2}
+.visit a:hover{color:#ffd3e1}
+.visit .btn-light,.cta .btn-light{color:var(--berry)}
+.visit .btn-light:hover,.cta .btn-light:hover{background:var(--blush);color:var(--berry)}
+.cta{background:radial-gradient(50% 120% at 90% 50%,rgba(255,255,255,.14),rgba(255,255,255,0) 60%),linear-gradient(110deg,var(--berry) 0%,var(--flamingo) 100%);color:#fde9ef}
+
+/* booking */
+.stepper li{border-color:var(--rose-line)}
+.stepper .n{background:var(--blush)}
+.stepper li[aria-current="step"]{border-color:var(--flamingo)}
+.stepper li[aria-current="step"] .n{background:var(--flamingo)}
+.stepper li.done .n{background:var(--rose);color:var(--berry)}
+.pick label{border-bottom-color:var(--rose-line)}
+.pick label:hover,.pick-row:has(input:checked) label{background:var(--blush)}
+.pick input{accent-color:var(--flamingo)}
+.date,.slot{border-color:var(--rose-line)}
+.slot:hover:not(:disabled),.date:hover{border-color:var(--flamingo)}
+.date[aria-pressed="true"],.slot[aria-pressed="true"]{background:var(--flamingo);border-color:var(--flamingo)}
+.date[aria-pressed="true"] .wd,.date[aria-pressed="true"] .mo{color:#fde0e9}
+.slot:disabled{background:#f7f1f3;color:#b59aa4}
+.summary{border-color:var(--rose-line);box-shadow:0 24px 50px -30px rgba(143,33,72,.45);overflow:hidden}
+.summary h2{margin:-24px -24px 14px;padding:20px 24px;background:var(--blush);color:var(--berry)}
+.review li{border-bottom-color:var(--rose-line)}
+.done-box{background:var(--blush);border-color:var(--rose-line)}
+
+/* contact */
+.card{border-color:var(--rose-line)}
+.card .details li{border-color:var(--rose-line)}
+.card .details a{color:var(--berry)}
+.field input,.field textarea,.field select{border-color:var(--rose-line)}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--flamingo);outline-color:rgba(179,48,90,.2)}
+.notice{background:var(--blush);border-color:var(--rose-line)}
+.map{background:var(--blush)}
+
+/* about */
+.team .portrait{box-shadow:0 0 0 5px #fff,0 0 0 7px var(--rose)}
+.photo{box-shadow:0 30px 60px -28px rgba(143,33,72,.4)}
+
+/* footer */
+.site-footer{background:linear-gradient(180deg,var(--blush),#f7e2e9);border-top-color:var(--rose-line)}
+.site-footer a:hover{color:var(--berry)}
+.legal{border-top-color:var(--rose-line)}
+.dock{border-color:var(--rose-line)}
+
+/* desktop-only extras: more glow and depth on wide screens */
+@media (min-width:901px){
+  .h2-hero{padding-bottom:clamp(64px,7vw,110px)}
+  .h2-hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:70px;background:linear-gradient(180deg,rgba(250,252,251,0),var(--porcelain))}
+  .tcard{box-shadow:0 18px 40px -30px rgba(143,33,72,.5)}
+  .tcard:hover{box-shadow:0 30px 50px -22px rgba(143,33,72,.45);border-color:var(--rose)}
+  .mini-portrait{box-shadow:0 0 0 2px var(--rose),0 14px 30px -14px rgba(143,33,72,.5)}
+  .page-head-grid .orbs::before,.h2-visual::before{content:"";position:absolute;inset:8% -6% -6% 6%;border-radius:50%;background:radial-gradient(circle,rgba(231,163,183,.55),rgba(231,163,183,0) 70%);filter:blur(10px);z-index:-1}
+  .page-head-grid .orbs,.h2-visual{isolation:isolate}
+  .svc-row{padding:34px 24px;margin-inline:-24px;border-radius:24px;transition:background .25s}
+  .svc-row:hover{background:var(--blush)}
+}
