@@ -72,161 +72,41 @@ def team_img(name):
     return UP + "2023/02/Team_%s.jpg" % name, w, h
 
 
-# ------------------------------------------------------------------ treatments (from the current site)
-# group = (title, intro_note, [(subtitle_or_None, [(name, duration_or_None, price)])])
-# price strings: "350", "1200+", or "Varies"
-SERVICES = [
-    {
-        "slug": "lashes-by-chante",
-        "file": "lashes-by-chante.html",
-        "name": "Lashes by Chanté",
-        "short": "Professional sculpting of brows and lashes are an artform, so whatever you envision for your brows and lashes, you are in good hands with Chanté.",
-        "intro": "Professional sculpting of brows and lashes are an artform, so whatever you envision for your brows and lashes, you are in good hands with Chanté.",
-        "img": "lashes",
-        "side": None,
-        "tabs": False,
-        "groups": [
-            ("Volume eyelash extensions", None, [(None, [
-                ("Full set", None, "1000"), ("2 week fill", None, "400"),
-                ("3 week fill", None, "500"), ("4 week fill", None, "650")])]),
-            ("Natural volume eyelash extensions", None, [(None, [
-                ("Full set", None, "800"), ("2 week fill", None, "360"),
-                ("3 week fill", None, "440"), ("4 week fill", None, "550")])]),
-            ("Brow lamination", None, [(None, [("Keratin brow lamination", None, "650")])]),
-            ("Removal", None, [(None, [("Eyelash extension removal", None, "150")])]),
-        ],
-    },
-    {
-        "slug": "hairless",
-        "file": "hairless.html",
-        "name": "Hairless",
-        "short": "With our powerful Venus Versa machine you are at ease with the quick, virtually pain-free Laser Hair Removal.",
-        "intro": "With our powerful Venus Versa machine you are at ease with the quick, virtually pain-free Laser Hair Removal. 6-10 sessions are recommended at 4 week intervals. Waxing requires skill and we have a lot of it, using top quality products we ensure a pleasant experience.",
-        "img": "laser",
-        "side": "legs",
-        "tabs": True,
-        "groups": [
-            ("Laser hair removal", None, [
-                ("Face", [("Lip or chin", None, "350"), ("Lip and chin", None, "550"),
-                          ("Half face", None, "650"), ("Full face", None, "900")]),
-                ("Body", [("Back or chest, upper or lower", None, "1200"), ("Full back or chest", None, "2400"),
-                          ("Half arm", None, "850"), ("Full arm", None, "1500"),
-                          ("Garden path", None, "500"), ("Underarm", None, "500")]),
-                ("Bikini", [("Side bikini", None, "600"), ("Brazilian", None, "850"), ("Hollywood", None, "1100")]),
-                ("Legs", [("Full leg", None, "2300"), ("Full leg, male", None, "2500"),
-                          ("3/4 leg", None, "1750"), ("Half leg", None, "1450")]),
-            ]),
-            ("Waxing", None, [
-                ("Face", [("Lip or chin", None, "70"), ("Lip and chin", None, "140"), ("Full face", None, "180")]),
-                ("Arms", [("Arm", None, "160"), ("Underarm", None, "100")]),
-                ("Bikini", [("Side bikini", None, "130"), ("Brazilian", None, "190"), ("Hollywood", None, "260")]),
-                ("Legs", [("Full leg", None, "250"), ("3/4 leg", None, "175"), ("1/2 leg", None, "160")]),
-            ]),
-        ],
-    },
-    {
-        "slug": "all-about-skin",
-        "file": "all-about-skin.html",
-        "name": "All About Skin",
-        "short": "Professionals you can rely on, Rachel and Nikki, are your go to Skin Queens.",
-        "intro": "Professionals you can rely on, Rachel and Nikki, are your go to Skin Queens. With their years of experience along with results-driven top-of-the-line equipment, you can be sure that there will be a solution for your skin concerns: from Pigmentation, Premature Aging, Sun Damage to just getting your GLOW back.",
-        "img": "skin",
-        "side": "facial",
-        "tabs": True,
-        "groups": [
-            ("IPL and skin rejuvenation", None, [(None, [
-                ("Full face rejuvenation", "30 min", "1200+"),
-                ("Full face including radio frequency", "45 min", "1600"),
-                ("Full face including neck", "1 h", "2000"),
-                ("Full face, neck and décolleté", "1 h", "3000"),
-                ("Hand rejuvenation", "30 min", "1000")])]),
-            ("Peels", None, [(None, [
-                ("Lamelle Beta Peel", "30 min", "480"),
-                ("Lamelle Beta Plus", "30 min", "480"),
-                ("Face and neck Lamelle Beta Peel", "40 min", "600"),
-                ("Face, neck and décolleté Lamelle Beta Peel", "45 min", "800"),
-                ("Lamelle Retistore Plus", "30 min", "1100")])]),
-            ("Dermapen and collagen induction therapy", None, [(None, [
-                ("Package of 5 Dermapen anti-aging treatments", "1 h 30 min", "5500"),
-                ("Lamelle Hydration Microneedling", "1 h", "750"),
-                ("Anti-aging microneedling treatment with retinol", "1 h", "900"),
-                ("Bio-microneedling treatment", "1 h 15 min", "950"),
-                ("Bio-microneedling with Bio-syntha C peel", "1 h 30 min", "1300"),
-                ("Advanced microneedling for ultimate skin rejuvenation", "1 h 30 min", "1600"),
-                ("Dermapen scarring treatment", "1 h 30 min", "Varies"),
-                ("Dermapen stretch mark treatment", "1 h 30 min", "Varies")])]),
-            ("Facials", None, [(None, [
-                ("Pro Skin 30 facial", "30 min", "300"),
-                ("Deep cleanse", "45 min", "390"),
-                ("Target treatment facial", "45 min", "450"),
-                ("Hydration facial", "1 h 10 min", "550"),
-                ("Anti-aging facial", "1 h 15 min", "690"),
-                ("Bio thermodynamic treatment", "1 h 15 min", "700"),
-                ("Oxygen facial", "1 h 20 min", "750"),
-                ("Bio Restore luxury skincare treatment", "1 h 30 min", "850")])]),
-            ("Hollywood carbon laser", None, [(None, [
-                ("Hollywood carbon laser facial", "45 min", "650")])]),
-        ],
-    },
-    {
-        "slug": "eyebrows-and-lashes",
-        "file": "eyebrows-and-lashes.html",
-        "name": "Eyebrows & Lashes",
-        "short": "Professional sculpting of brows is an art so whatever it is you choose you are in good hands.",
-        "intro": "Professional sculpting of brows is an art so whatever it is you choose you are in good hands. From Microblading by Sharon and Dimpho; Permanent Make-up by Sharon; Lash extensions by Schola or a traditional Keratin Lash Lift with BOTOX ensuring healthy, strong natural lashes.",
-        "img": "brows",
-        "side": None,
-        "tabs": True,
-        "groups": [
-            ("Microblading", None, [(None, [
-                ("Eyebrow embroidery follow-up", "1 h", "500"),
-                ("Eyebrow embroidery", "1 h 30 min", "1900"),
-                ("Embroidery", "2 h", "1900")])]),
-            ("Brows and lashes", None, [(None, [
-                ("Brow shape", "15 min", "90"),
-                ("Brow tint", "15 min", "70"),
-                ("Brow shaping with tint", "20 min", "140"),
-                ("Lash and brow tint", "30 min", "145"),
-                ("Lash tint with brow shape and tint", "40 min", "180"),
-                ("Keratin lash lift and tint", "1 h", "550"),
-                ("Powder eyebrows", "1 h 30 min", "2800"),
-                ("Eyebrow yearly touch-up", "1 h", "550"),
-                ("Powder eyebrows", "1 h", "700")])]),
-            ("Permanent make-up", None, [(None, [
-                ("Permanent eyeliner (top and bottom liner)", "1 h 30 min", "1600"),
-                ("Permanent eyeliner (top or bottom liner only)", "1 h", "1000"),
-                ("Permanent eyeliner touch-up", "1 h 30 min", "900"),
-                ("Keratin lash lift", "45 min", "550"),
-                ("Individual lashes, classic", "1 h 30 min", "650"),
-                ("Lash fill", "1 h", "Varies")])]),
-        ],
-    },
-    {
-        "slug": "slim-me-up",
-        "file": "slim-me-up.html",
-        "name": "Slim Me Up",
-        "short": "If it's body fat that you are worried about, or perhaps jiggly thighs, or a lumpy behind, we have many options to choose from.",
-        "intro": "If it's body fat that you are worried about, or perhaps jiggly thighs, or a lumpy behind, we have many options to choose from. 10 treatments are recommended to see the best results.",
-        "img": "slim",
-        "side": "body",
-        "tabs": True,
-        "offer": "20% off Skin Tightening Packages",
-        "groups": [
-            ("Skin tightening", None, [(None, [
-                ("Laser lipo treatment", "1 h", "350"),
-                ("RF body contouring / cellulite treatment", "45 min", "600"),
-                ("Tummy", "45 min", "600"),
-                ("Arms", "45 min", "600"),
-                ("Buttocks", "45 min", "600"),
-                ("Knees", "45 min", "600"),
-                ("Neck", "45 min", "600"),
-                ("Legs, front", "45 min", "600"),
-                ("Legs, back", "45 min", "600"),
-                ("Full face", "45 min", "600")])]),
-            ("EMS sculpting", "EMS", []),
-        ],
-    },
-]
+# ------------------------------------------------------------------ treatments (from her live Booksy menu)
+from menu import (SERVICES, SPECIALS, BOOKSY_URL, BOOKSY_RATING, BOOKSY_REVIEWS, BOOKSY_CHECKED, HOURS, POLICY,
+                  AMENITIES, HOME_SPECIALS, HOME_CHIPS)
+ALL_PAGES = SERVICES + [SPECIALS]
+BOOKSY_ATTRS = 'target="_blank" rel="noopener"'
+
+
+def fmt_dur(m):
+    if not m:
+        return ""
+    h, mm = divmod(int(m), 60)
+    return ("%d h" % h if h else "") + (" " if h and mm else "") + ("%d min" % mm if mm else "")
+
+
+def find_row(slug, name):
+    for s in ALL_PAGES:
+        if s["slug"] != slug:
+            continue
+        for _t, _n, subs in s["groups"]:
+            for _s, rows in subs:
+                for r in rows:
+                    if r[0] == name:
+                        return r
+    raise KeyError((slug, name))
+
+
+def rating_badge(cls=""):
+    return ('<a class="rating %s" href="%s" %s><span class="stars" aria-hidden="true">★★★★★</span>'
+            '<span><b>%s</b> from %d reviews on Booksy</span></a>' % (cls, BOOKSY_URL, BOOKSY_ATTRS, BOOKSY_RATING, BOOKSY_REVIEWS))
+
+
+def hours_list(cls="hours-list"):
+    return '<dl class="%s">%s</dl>' % (cls, "".join('<dt>%s</dt><dd>%s</dd>' % (esc(d), esc(h)) for d, h in HOURS))
+
+
 EMS_TEXT = ("EMS Sculpt is a non-invasive solution for fat loss and muscle toning. The procedure uses electromagnetic "
             "energy to stimulate powerful muscle contractions leading to fat reduction and muscle toning. 30 min of "
             "training is equal to 20,000 muscle contractions. Suggested 6-8 treatments done 1-2 times a week.")
@@ -240,8 +120,8 @@ NB = " "
 
 
 def money(p):
-    if p == "Varies":
-        return "Varies"
+    if p in ("Varies", "Free"):
+        return p
     plus = p.endswith("+")
     n = int(p.rstrip("+"))
     s = "{:,}".format(n).replace(",", NB)
@@ -264,14 +144,14 @@ def logo_crop(big=False):
 
 def catalog_json():
     out, n = [], 0
-    for s in SERVICES:
+    for s in ALL_PAGES:
         items = []
         for gtitle, _note, subs in s["groups"]:
             for sub, rows in subs:
-                for name, dur, price in rows:
+                for name, dur, price, _desc in rows:
                     n += 1
                     label = name if not sub else "%s: %s" % (sub, name)
-                    items.append({"id": "t%d" % n, "group": gtitle, "name": label, "dur": dur or "", "price": money(price)})
+                    items.append({"id": "t%d" % n, "group": gtitle, "name": label, "dur": fmt_dur(dur), "price": money(price)})
         out.append({"slug": s["slug"], "name": s["name"], "items": items})
     return out
 
@@ -279,7 +159,7 @@ def catalog_json():
 def item_ids():
     """Map (service slug, group index, sub index, row index) -> booking id, in the same order as catalog_json."""
     ids, n = {}, 0
-    for s in SERVICES:
+    for s in ALL_PAGES:
         for gi, (_t, _n, subs) in enumerate(s["groups"]):
             for si, (_sub, rows) in enumerate(subs):
                 for ri, _row in enumerate(rows):
@@ -296,7 +176,7 @@ NAV = [("index.html", "Home"), ("about.html", "About"), ("services.html", "Servi
 def header(active):
     sub = "".join(
         '<li><a href="%s"%s>%s</a></li>' % (s["file"], ' aria-current="page"' if active == s["slug"] else "", esc(s["name"]))
-        for s in SERVICES)
+        for s in ALL_PAGES)
     sub += '<li class="sub-all"><a href="services.html">All treatments</a></li>'
     cur = lambda k: ' aria-current="page"' if active == k else ""
     services_cur = ' aria-current="page"' if active == "services" else ""
@@ -328,7 +208,7 @@ def header(active):
 
 
 def footer():
-    svc = "".join('<li><a href="%s">%s</a></li>' % (s["file"], esc(s["name"])) for s in SERVICES)
+    svc = "".join('<li><a href="%s">%s</a></li>' % (s["file"], esc(s["name"])) for s in ALL_PAGES)
     return """
 <footer class="site-footer">
   <div class="wrap">
@@ -337,18 +217,20 @@ def footer():
       <div><h4>Treatments</h4><ul>%(svc)s</ul></div>
       <div><h4>Studio</h4><ul>
         <li><a href="about.html">About us</a></li>
-        <li><a href="book.html">Book online</a></li>
+        <li><a href="book.html">Book on Booksy</a></li>
         <li><a href="contact.html">Contact and map</a></li>
+        <li><a href="booking-preview.html">Own booking system (preview)</a></li>
         <li><a href="%(fb)s" rel="noopener">Facebook</a></li>
         <li><a href="%(ig)s" rel="noopener">Instagram</a></li></ul></div>
       <div><h4>Get in touch</h4><ul>
         <li><a href="tel:%(tel)s">%(phone)s</a></li>
         <li><a href="%(wa)s" rel="noopener">WhatsApp %(whatsapp)s</a></li>
-        <li><a href="mailto:%(email)s">%(email)s</a></li></ul></div>
+        <li><a href="mailto:%(email)s">%(email)s</a></li></ul>
+        %(hours)s</div>
     </div>
     <div class="legal">
       <p>Concept website by Pablo Lebelo, <a href="https://mrpoint.online">mrpoint.online</a>, 073 708 6840. Not the official site of Heaven On Earth Skin &amp; Body Studio.</p>
-      <p>Treatments, prices, text, photos and logo are from the studio's current website.</p>
+      <p>Treatments and prices are from the studio's Booksy menu (%(checked)s). Text, photos and logo are from its current website.</p>
     </div>
   </div>
 </footer>
@@ -360,7 +242,7 @@ def footer():
 </nav>""" % {
         "logo": logo_crop(big=True), "a1": esc(ADDRESS_1), "a2": esc(ADDRESS_2), "svc": svc,
         "fb": FACEBOOK, "ig": INSTAGRAM, "tel": PHONE_TEL, "phone": PHONE, "wa": WHATSAPP_URL,
-        "whatsapp": WHATSAPP, "email": EMAIL,
+        "whatsapp": WHATSAPP, "email": EMAIL, "hours": hours_list("hours-list foot-hours"), "checked": BOOKSY_CHECKED,
     }
 
 
@@ -398,6 +280,8 @@ def page(filename, title, description, active, body, scripts=("site.js",), head_
         "header": header(active), "body": body, "footer": footer(),
         "scripts": "\n".join('<script src="%s" defer></script>' % s for s in scripts),
     }
+    # real bookings happen on Booksy: every remaining book.html link opens her Booksy page in a new tab
+    doc = re.sub(r'href="book\.html(\?[^"]*)?"', 'href="%s" %s' % (BOOKSY_URL, BOOKSY_ATTRS), doc)
     # clean links (Cloudflare serves about.html at /about, so .html links cost a redirect on every click)
     doc = re.sub(r'href="index\.html', 'href="./', doc)
     doc = re.sub(r'href="([a-z0-9-]+)\.html', r'href="\1', doc)
@@ -420,7 +304,7 @@ def orbs(main_key, side_key=None, pearl_text=None):
 
 def svc_rows():
     rows = []
-    for s in SERVICES:
+    for s in ALL_PAGES:
         rows.append(
             '<li class="svc-row"><div class="svc-orb">%s</div><div><h3>%s</h3><p>%s</p></div>'
             '<a class="go btn btn-line" href="%s">See treatments and prices</a></li>'
@@ -439,19 +323,21 @@ def visit_band(heading="Visit the studio"):
         <li><span class="k">Phone</span><a href="tel:%(tel)s">%(phone)s</a></li>
         <li><span class="k">WhatsApp</span><a href="%(wa)s" rel="noopener">%(whatsapp)s</a></li>
         <li><span class="k">Email</span><a href="mailto:%(email)s">%(email)s</a></li>
+        <li class="full"><span class="k">Opening hours</span>%(hours)s<span class="policy">%(policy)s</span></li>
       </ul>
       <div class="btn-row"><a class="btn btn-light" href="%(dir)s" rel="noopener">Get directions</a><a class="btn btn-line" style="border-color:#fff;color:#fff" href="book.html">Book online</a></div>
+      %(rating)s
     </div>
     <iframe class="map" title="Map showing %(studio)s" src="%(embed)s" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
   </div>
 </section>""" % {
         "heading": heading, "a1": esc(ADDRESS_1), "a2": esc(ADDRESS_2), "tel": PHONE_TEL, "phone": PHONE,
         "wa": WHATSAPP_URL, "whatsapp": WHATSAPP, "email": EMAIL, "dir": MAP_DIRECTIONS, "studio": esc(STUDIO),
-        "embed": MAP_EMBED,
+        "embed": MAP_EMBED, "hours": hours_list(), "policy": esc(POLICY), "rating": rating_badge("on-dark"),
     }
 
 
-def cta_band(heading="Ready to book?", text="Choose a treatment, pick a time and send your details."):
+def cta_band(heading="Ready to book?", text="Choose a treatment and a time that suits you on Booksy."):
     return """
 <section class="cta">
   <div class="wrap">
@@ -466,8 +352,8 @@ def min_price(s):
     vals=[]
     for _t,_n,subs in s["groups"]:
         for _s,rows in subs:
-            for _nm,_d,pr in rows:
-                if pr!="Varies": vals.append(int(pr.rstrip("+")))
+            for _nm,_d,pr,_ds in rows:
+                if pr not in ("Varies","Free") and "per shot" not in _nm: vals.append(int(pr.rstrip("+")))
     return money(str(min(vals))) if vals else None
 
 
@@ -485,13 +371,16 @@ def tcards():
 
 def build_home():
     offer = [s for s in SERVICES if s.get("offer")][0]
+    offer_text, offer_file = offer["offer"]
     people = "".join(
         '<li><a href="about.html"><span class="mini-portrait"><img src="%s" width="%d" height="%d" alt="" loading="lazy" decoding="async"></span><span class="mini-nm">%s</span></a></li>'
         % (esc(team_img(n)[0]), team_img(n)[1], team_img(n)[2], esc(n)) for n in TEAM)
-    chips = [("hairless.html", "Laser lip or chin", "350", "c1"),
-             ("eyebrows-and-lashes.html", "Keratin lash lift", "550", "c2"),
-             ("all-about-skin.html", "Hydration facial", "550", "c3")]
-    chip_html = "".join('<a class="chip %s" href="%s"><span>%s</span><b>%s</b></a>' % (c, f, esc(n), money(pr)) for f, n, pr, c in chips)
+    chip_html = "".join('<a class="chip c%d" href="%s.html"><span>%s</span><b>%s</b></a>'
+                        % (i + 1, slug, esc(label), money(find_row(slug, row)[2])) for i, (slug, row, label) in enumerate(HOME_CHIPS))
+    specials = "".join(
+        '<li><div class="spec"><span class="spec-name">%s</span><span class="spec-meta">%s</span><span class="spec-price">%s</span>'
+        '<a class="bk" href="book.html" aria-label="Book %s on Booksy (opens in a new tab)">Book now</a></div></li>'
+        % (esc(r[0]), esc(fmt_dur(r[1])), money(r[2]), esc(r[0])) for r in (find_row("specials", n) for n in HOME_SPECIALS))
     body = """
 <section class="h2-hero">
   <div class="wrap h2-grid">
@@ -501,6 +390,7 @@ def build_home():
       <p class="strap">Skin, Body, Laser Studio in Ruimsig</p>
       <p class="lede">With years of experience and continuing education, our dedicated staff are ready to assist with your beauty needs.</p>
       <div class="btn-row"><a class="btn btn-solid" href="book.html">Book online</a><a class="btn btn-line" href="services.html">See treatments</a></div>
+      %(rating)s
     </div>
     <div class="h2-visual">
       <div class="arch">%(hero)s</div>
@@ -516,6 +406,12 @@ def build_home():
   </div>
   <div class="cards-wrap">%(cards)s</div>
 </section>
+<section class="h2-section h2-specials" aria-labelledby="sp-h">
+  <div class="wrap">
+    <div class="h2-head"><h2 id="sp-h">Specials</h2><a class="text-link" href="specials.html">All specials and packages</a></div>
+  </div>
+  <div class="cards-wrap"><ul class="specs">%(specials)s</ul></div>
+</section>
 <section class="h2-section h2-team" aria-labelledby="team-h">
   <div class="wrap">
     <div class="h2-head"><h2 id="team-h">Meet the team</h2><a class="text-link" href="about.html">About us</a></div>
@@ -523,7 +419,7 @@ def build_home():
   </div>
   <ul class="mini-team">%(people)s</ul>
 </section>%(visit)s%(cta)s""" % {
-        "offer": esc(offer["offer"]), "offer_file": offer["file"],
+        "offer": esc(offer_text), "offer_file": offer_file, "rating": rating_badge("in-hero"), "specials": specials,
         "hero": img("facial", lazy=False, alt=ALT["facial"]), "lash": img("lashes", lazy=False),
         "chips": chip_html, "cards": tcards(), "about": esc(ABOUT_TEXT), "people": people,
         "visit": visit_band(), "cta": '<div class="home-cta">%s</div>' % cta_band(),
@@ -583,18 +479,19 @@ def menu_rows(slug, gi, subs):
         if sub:
             out.append('<h4 class="menu-sub">%s</h4>' % esc(sub))
         lis = []
-        for ri, (name, dur, price) in enumerate(rows):
-            tid = IDS[(slug, gi, si, ri)]
+        for ri, (name, dur, price, desc) in enumerate(rows):
+            label = name if not sub else "%s, %s" % (sub, name)
             lis.append(
-                '<li class="menu-row"><span class="nm">%s</span><span class="du">%s</span><span class="pr">%s</span>'
-                '<a class="bk" href="book.html?t=%s" aria-label="Book %s">Book now</a></li>'
-                % (esc(name), esc(dur or ""), money(price), tid, esc(name)))
+                '<li class="menu-row"><span class="nm"><span class="nm-t">%s</span>%s</span><span class="du">%s</span><span class="pr">%s</span>'
+                '<a class="bk" href="%s" %s aria-label="Book %s on Booksy (opens in a new tab)">Book now</a></li>'
+                % (esc(name), ('<span class="ds">%s</span>' % esc(desc)) if desc else "", esc(fmt_dur(dur)), money(price),
+                   BOOKSY_URL, BOOKSY_ATTRS, esc(label)))
         out.append('<ul class="menu-list">%s</ul>' % "".join(lis))
     return "".join(out)
 
 
 def build_service(s, idx):
-    others = "".join('<a href="%s">%s</a>' % (o["file"], esc(o["name"])) for o in SERVICES if o is not s)
+    others = "".join('<a href="%s">%s</a>' % (o["file"], esc(o["name"])) for o in ALL_PAGES if o is not s)
     panels, tabs = [], []
     for gi, (title, marker, subs) in enumerate(s["groups"]):
         pid = "p-%s-%d" % (s["slug"], gi)
@@ -619,7 +516,7 @@ def build_service(s, idx):
         menu = "".join(panels)
     offer = ""
     if s.get("offer"):
-        offer = '<aside class="offer" aria-label="Offer"><div class="wrap"><p><strong>%s</strong></p><a href="book.html?c=%s">Book a treatment</a></div></aside>' % (esc(s["offer"]), s["slug"])
+        offer = '<aside class="offer" aria-label="Offer"><div class="wrap"><p><strong>%s</strong></p><a href="%s">See all specials</a></div></aside>' % (esc(s["offer"][0]), s["offer"][1])
     body = """
 <section class="page-head">
   <div class="wrap">
@@ -668,6 +565,12 @@ def build_contact():
         <li><span class="k">Email</span><a href="mailto:%(email)s">%(email)s</a></li>
         <li><span class="k">Social</span><a href="%(fb)s" rel="noopener">Facebook</a> and <a href="%(ig)s" rel="noopener">Instagram</a></li>
       </ul>
+      <h3 class="card-sub">Opening hours</h3>
+      %(hours)s
+      <p class="policy">%(policy)s</p>
+      <h3 class="card-sub">Good to know</h3>
+      <ul class="amenities">%(amen)s</ul>
+      %(rating)s
       <div class="btn-row"><a class="btn btn-solid" href="%(dir)s" rel="noopener">Get directions</a><a class="btn btn-line" href="%(open)s" rel="noopener">Open in Google Maps</a></div>
     </div>
     <div class="card">
@@ -688,7 +591,7 @@ def build_contact():
   <div class="wrap"><iframe class="map" style="height:440px" title="Map showing %(studio)s" src="%(embed)s" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
 </section>""" % {
         "a1": esc(ADDRESS_1), "a2": esc(ADDRESS_2), "tel": PHONE_TEL, "phone": PHONE, "wa": WHATSAPP_URL, "whatsapp": WHATSAPP,
-        "email": EMAIL, "fb": FACEBOOK, "ig": INSTAGRAM, "dir": MAP_DIRECTIONS, "open": MAP_OPEN, "studio": esc(STUDIO), "embed": MAP_EMBED,
+        "email": EMAIL, "fb": FACEBOOK, "ig": INSTAGRAM, "dir": MAP_DIRECTIONS, "open": MAP_OPEN, "studio": esc(STUDIO), "embed": MAP_EMBED, "hours": hours_list(), "policy": esc(POLICY), "rating": rating_badge(), "amen": "".join("<li>%s</li>" % esc(a) for a in AMENITIES),
     }
     page("contact.html", "Contact", "Address, phone, WhatsApp, email and map for Heaven On Earth Skin, Body, Laser Studio in Ruimsig.", "contact", body)
 
@@ -698,9 +601,9 @@ def build_book():
     body = """
 <section class="page-head" id="book-top">
   <div class="wrap">
-    <p class="crumbs"><a href="index.html">Home</a> / <span aria-current="page">Book online</span></p>
-    <h1>Book online</h1>
-    <p class="lede">This is a demo of how online booking could work. Nothing is booked or sent, and the times shown are samples.</p>
+    <p class="crumbs"><a href="index.html">Home</a> / <span aria-current="page">Own booking system (preview)</span></p>
+    <h1>Your own booking system</h1>
+    <p class="lede">A preview of booking built into the website itself, as an alternative to Booksy. Nothing is booked or sent, and the times shown are samples. To book a real appointment, <a href="book.html">book on Booksy</a>.</p>
   </div>
 </section>
 <div class="wrap book-grid">
@@ -762,14 +665,14 @@ def build_book():
 </div>
 <script type="application/json" id="catalog">%(cat)s</script>""" % {
         "tel": PHONE_TEL, "phone": PHONE, "wa": WHATSAPP_URL, "whatsapp": WHATSAPP, "cat": cat_json}
-    page("book.html", "Book online", "Demo of online booking for Heaven On Earth Skin, Body, Laser Studio. Nothing is booked or sent.", "book", body, scripts=("site.js", "book.js"))
+    page("booking-preview.html", "Own booking system (preview)", "Preview of a booking system built into the website. Nothing is booked or sent.", "book", body, scripts=("site.js", "book.js"))
 
 
 if __name__ == "__main__":
     build_home()
     build_about()
     build_services()
-    for i, s in enumerate(SERVICES):
+    for i, s in enumerate(ALL_PAGES):
         build_service(s, i)
     build_contact()
     build_book()

@@ -158,7 +158,7 @@
   function belowFold(el) { return el.getBoundingClientRect().top > vh * 0.92; }
 
   var singles = '.h2-head, .section-head, .team-intro, .swipe-hint, .split > *, .visit-grid > *, .cta .wrap > *, .contact-grid > .card, .menu-wrap > .wrap, .section-tint .wrap > *, .book-grid > *, .site-footer .legal';
-  var groups = '.cards, .mini-team, .team, .svc-list, .others, .foot-grid';
+  var groups = '.cards, .specs, .mini-team, .team, .svc-list, .others, .foot-grid, .amenities';
   var targets = [];
 
   /* groups first: their children glide in one after another */
