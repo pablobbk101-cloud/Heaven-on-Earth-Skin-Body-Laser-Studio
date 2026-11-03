@@ -13,7 +13,7 @@ import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VERSIONS = {}
-for _a in ("styles.css", "site.js", "book.js"):
+for _a in ("styles.css", "site.js", "book.js", "tour.js"):
     with open(os.path.join(ROOT, _a), "rb") as _f:
         VERSIONS[_a] = hashlib.sha1(_f.read()).hexdigest()[:8]
 
@@ -182,7 +182,7 @@ def header(active):
     services_cur = ' aria-current="page"' if active == "services" else ""
     return """
 <a class="skip" href="#main">Skip to content</a>
-<div class="concept-bar" role="note">Concept preview of a new Heaven On Earth website. This is not the live site. Designed by <a href="https://mrpoint.online">Pablo Lebelo, mrpoint.online</a></div>
+<div class="concept-bar" role="note"><span>Concept preview of a new Heaven On Earth website. This is not the live site. Designed by <a href="https://mrpoint.online">Pablo Lebelo, mrpoint.online</a></span><button type="button" class="tour-launch" data-tour-start>Take the tour</button></div>
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="index.html" aria-label="Heaven On Earth, home">%(logo)s<span class="brand-name">Heaven On Earth</span></a>
@@ -254,7 +254,7 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
            "%3Ccircle cx='38' cy='26' r='24' fill='%231d7a7f'/%3E%3Ccircle cx='22' cy='42' r='16' fill='%23ebe7e3'/%3E%3C/svg%3E")
 
 
-def page(filename, title, description, active, body, scripts=("site.js",), head_extra=""):
+def page(filename, title, description, active, body, scripts=("site.js", "tour.js"), head_extra=""):
     doc = """<!doctype html>
 <html lang="en-ZA">
 <head>
@@ -286,7 +286,7 @@ def page(filename, title, description, active, body, scripts=("site.js",), head_
     doc = re.sub(r'href="index\.html', 'href="./', doc)
     doc = re.sub(r'href="([a-z0-9-]+)\.html', r'href="\1', doc)
     # version stamps so phones fetch the new CSS and JS after every update
-    for asset in ("styles.css", "site.js", "book.js"):
+    for asset in ("styles.css", "site.js", "book.js", "tour.js"):
         doc = doc.replace('"%s"' % asset, '"%s?v=%s"' % (asset, VERSIONS[asset]))
     with open(os.path.join(ROOT, filename), "w", encoding="utf-8") as f:
         f.write(doc)
@@ -665,7 +665,7 @@ def build_book():
 </div>
 <script type="application/json" id="catalog">%(cat)s</script>""" % {
         "tel": PHONE_TEL, "phone": PHONE, "wa": WHATSAPP_URL, "whatsapp": WHATSAPP, "cat": cat_json}
-    page("booking-preview.html", "Own booking system (preview)", "Preview of a booking system built into the website. Nothing is booked or sent.", "book", body, scripts=("site.js", "book.js"))
+    page("booking-preview.html", "Own booking system (preview)", "Preview of a booking system built into the website. Nothing is booked or sent.", "book", body, scripts=("site.js", "book.js", "tour.js"))
 
 
 if __name__ == "__main__":

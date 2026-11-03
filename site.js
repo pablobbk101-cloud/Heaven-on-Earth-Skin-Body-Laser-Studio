@@ -2,6 +2,15 @@
 (function () {
   var root = document.documentElement;
   root.classList.add('js');
+
+  /* page-to-page transitions are a nicety: if the browser skips one, do not report it as an error */
+  function quiet(e) {
+    var vt = e && e.viewTransition;
+    if (!vt) return;
+    ['ready', 'finished', 'updateCallbackDone'].forEach(function (k) { if (vt[k] && vt[k].catch) vt[k].catch(function () {}); });
+  }
+  window.addEventListener('pageswap', quiet);
+  window.addEventListener('pagereveal', quiet);
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------------- mobile menu (animated open and close) ---------------- */
