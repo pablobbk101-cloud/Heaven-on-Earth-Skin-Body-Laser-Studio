@@ -436,3 +436,5 @@ p{margin:0 0 1em;max-width:62ch}
   .foot-grid>div:last-child{display:none}
 }
 @media (max-width:420px){.cards li{flex-basis:60%}}
+@media (max-width:380px){.brand-name{display:inline;font-size:1.15rem}.brand{gap:10px}.logo-crop{width:46px}}
+@media (max-width:330px){.brand-name{display:none}}
