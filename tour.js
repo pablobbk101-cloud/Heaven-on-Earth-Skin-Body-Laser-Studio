@@ -3,7 +3,7 @@
    Walks across pages; the current step is kept in sessionStorage so the tour survives page changes. */
 (function () {
   var KEY = 'hoe-tour-step';
-  var PABLO_WA = 'https://wa.me/27737086840';
+  var PABLO_WA = 'https://wa.me/27604521037';
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* sel: one selector or a list (the first one that is visible is used); no sel = centred card */
@@ -36,7 +36,7 @@
       text: 'The About page introduces the studio and the whole team, using your own photos.' },
     { page: 'booking-preview', sel: '.book-grid', title: 'Optional: your own booking system',
       text: 'If you ever want clients to book on your own website instead of Booksy, this is how it could work. Try it: pick a treatment, a date and a time. Nothing is booked or sent.' },
-    { page: 'booking-preview', title: 'That is the tour',
+    { page: 'index', title: 'That is the tour',
       text: 'Thank you for having a look. Explore any page you like, and message me with questions or changes you would like.', last: true }
   ];
 

@@ -229,7 +229,7 @@ def footer():
         %(hours)s</div>
     </div>
     <div class="legal">
-      <p>Concept website by Pablo Lebelo, <a href="https://mrpoint.online">mrpoint.online</a>, 073 708 6840. Not the official site of Heaven On Earth Skin &amp; Body Studio.</p>
+      <p>Concept website by Pablo Lebelo, <a href="https://mrpoint.online">mrpoint.online</a>, <a href="tel:+27604521037">060 452 1037</a>. Not the official site of Heaven On Earth Skin &amp; Body Studio.</p>
       <p>Treatments and prices are from the studio's Booksy menu (%(checked)s). Text, photos and logo are from its current website.</p>
     </div>
   </div>
@@ -267,6 +267,8 @@ def page(filename, title, description, active, body, scripts=("site.js", "tour.j
 <link rel="icon" href="%(fav)s">
 %(fonts)s
 <link rel="stylesheet" href="styles.css">
+<script>/* skipped page transitions are harmless: keep them out of the error log */
+["pageswap","pagereveal"].forEach(function(n){addEventListener(n,function(e){var v=e.viewTransition;if(v)["ready","finished","updateCallbackDone"].forEach(function(k){v[k]&&v[k].catch&&v[k].catch(function(){})})})});</script>
 %(extra)s
 </head>
 <body>%(header)s
