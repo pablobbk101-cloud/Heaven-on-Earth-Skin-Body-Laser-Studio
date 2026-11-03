@@ -346,7 +346,12 @@ def footer():
     </div>
   </div>
 </footer>
-<div class="concept-chip" aria-hidden="true">Concept preview</div>""" % {
+<div class="concept-chip" aria-hidden="true">Concept preview</div>
+<nav class="dock" aria-label="Quick actions">
+  <a href="tel:%(tel)s"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.6a1 1 0 01-.25 1z" fill="currentColor"/></svg>Call</a>
+  <a href="%(wa)s" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1112 20a8 8 0 01-3.9-1L4 20z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>WhatsApp</a>
+  <a class="dock-main" href="book.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Book online</a>
+</nav>""" % {
         "logo": logo_crop(big=True), "a1": esc(ADDRESS_1), "a2": esc(ADDRESS_2), "svc": svc,
         "fb": FACEBOOK, "ig": INSTAGRAM, "tel": PHONE_TEL, "phone": PHONE, "wa": WHATSAPP_URL,
         "whatsapp": WHATSAPP, "email": EMAIL,
@@ -445,46 +450,71 @@ def cta_band(heading="Ready to book?", text="Choose a treatment, pick a time and
 
 
 # ------------------------------------------------------------------ pages
+def min_price(s):
+    vals=[]
+    for _t,_n,subs in s["groups"]:
+        for _s,rows in subs:
+            for _nm,_d,pr in rows:
+                if pr!="Varies": vals.append(int(pr.rstrip("+")))
+    return money(str(min(vals))) if vals else None
+
+
+def tcards():
+    out=[]
+    for s in SERVICES:
+        groups=[g[0] for g in s["groups"]][:3]
+        mp=min_price(s)
+        out.append('<li><a class="tcard" href="%s"><span class="tcard-img">%s</span><span class="tcard-body"><span class="tcard-name">%s</span>'
+                   '<span class="tcard-groups">%s</span>%s</span></a></li>'
+                   % (s["file"], img(s["img"], alt=""), esc(s["name"]), esc(", ".join(groups)),
+                      ('<span class="tcard-from">From %s</span>' % mp) if mp else '<span class="tcard-from">Ask for a quote</span>'))
+    return '<ul class="cards" aria-label="Treatment areas">%s</ul>' % "".join(out)
+
+
 def build_home():
     offer = [s for s in SERVICES if s.get("offer")][0]
+    people = "".join(
+        '<li><a href="about.html"><span class="mini-portrait"><img src="%s" width="%d" height="%d" alt="" loading="lazy" decoding="async"></span><span class="mini-nm">%s</span></a></li>'
+        % (esc(team_img(n)[0]), team_img(n)[1], team_img(n)[2], esc(n)) for n in TEAM)
+    chips = [("hairless.html", "Laser lip or chin", "350", "c1"),
+             ("eyebrows-and-lashes.html", "Keratin lash lift", "550", "c2"),
+             ("all-about-skin.html", "Hydration facial", "550", "c3")]
+    chip_html = "".join('<a class="chip %s" href="%s"><span>%s</span><b>%s</b></a>' % (c, f, esc(n), money(pr)) for f, n, pr, c in chips)
     body = """
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
+<section class="h2-hero">
+  <div class="wrap h2-grid">
+    <div class="h2-copy">
+      <a class="h2-offer" href="%(offer_file)s"><span class="dot" aria-hidden="true"></span>%(offer)s</a>
       <h1>Heaven On Earth</h1>
       <p class="strap">Skin, Body, Laser Studio in Ruimsig</p>
       <p class="lede">With years of experience and continuing education, our dedicated staff are ready to assist with your beauty needs.</p>
-      <div class="btn-row"><a class="btn btn-solid" href="book.html">Book online</a><a class="btn btn-line" href="services.html">See all treatments</a></div>
-      <p class="hero-meta">%(a1)s, %(a2)s<br>Call <a href="tel:%(tel)s">%(phone)s</a> or WhatsApp <a href="%(wa)s" rel="noopener">%(whatsapp)s</a></p>
+      <div class="btn-row"><a class="btn btn-solid" href="book.html">Book online</a><a class="btn btn-line" href="services.html">See treatments</a></div>
     </div>
-    %(orbs)s
+    <div class="h2-visual">
+      <div class="arch">%(hero)s</div>
+      <div class="h2-orb">%(lash)s</div>
+      %(chips)s
+    </div>
   </div>
 </section>
-<aside class="offer" aria-label="Offer">
-  <div class="wrap"><p><strong>%(offer)s</strong></p><a href="%(offer_file)s">See skin tightening</a></div>
-</aside>
-<section class="section" aria-labelledby="t-h">
+<section class="h2-section" aria-labelledby="t-h">
   <div class="wrap">
-    <div class="section-head"><h2 id="t-h">Treatments</h2><p>Each treatment area has its own page with the full price list.</p></div>
-    %(rows)s
+    <div class="h2-head"><h2 id="t-h">Treatments</h2><a class="text-link" href="services.html">All prices</a></div>
+    <p class="swipe-hint" aria-hidden="true">Swipe to see all five</p>
   </div>
+  <div class="cards-wrap">%(cards)s</div>
 </section>
-<section class="section section-tint" aria-labelledby="a-h">
-  <div class="wrap split">
-    <div class="photo">%(salon)s</div>
-    <div>
-      <h2 id="a-h">About us</h2>
-      <p>%(about)s</p>
-      <p><a class="text-link" href="about.html">Meet the team</a></p>
-    </div>
+<section class="h2-section h2-team" aria-labelledby="team-h">
+  <div class="wrap">
+    <div class="h2-head"><h2 id="team-h">Meet the team</h2><a class="text-link" href="about.html">About us</a></div>
+    <p class="team-intro">%(about)s</p>
   </div>
+  <ul class="mini-team">%(people)s</ul>
 </section>%(visit)s%(cta)s""" % {
-        "a1": esc(ADDRESS_1), "a2": esc(ADDRESS_2), "tel": PHONE_TEL, "phone": PHONE, "wa": WHATSAPP_URL,
-        "whatsapp": WHATSAPP,
-        "orbs": orbs("banner", None, "Skin, body, laser studio"),
         "offer": esc(offer["offer"]), "offer_file": offer["file"],
-        "rows": svc_rows(), "salon": img("salon"), "about": esc(ABOUT_TEXT),
-        "visit": visit_band(), "cta": cta_band(),
+        "hero": img("facial", lazy=False, alt=ALT["facial"]), "lash": img("lashes", lazy=False),
+        "chips": chip_html, "cards": tcards(), "about": esc(ABOUT_TEXT), "people": people,
+        "visit": visit_band(), "cta": '<div class="home-cta">%s</div>' % cta_band(),
     }
     page("index.html", "Skin, body and laser studio in Ruimsig",
          "Concept website for Heaven On Earth Skin, Body, Laser Studio in Ruimsig, Roodepoort: laser hair removal, skin treatments, lashes, brows and body sculpting.",
