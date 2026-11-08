@@ -133,7 +133,7 @@
   /* ---------------- header: soft shadow once the page scrolls ---------------- */
   var header = document.querySelector('.site-header');
   var ticking = false;
-  var parallax = reduce ? [] : Array.prototype.slice.call(document.querySelectorAll('.arch img, .page-head .orb-main img'));
+  var parallax = [];
   function onScroll() {
     var y = window.scrollY || window.pageYOffset;
     if (header) header.classList.toggle('scrolled', y > 8);
@@ -149,6 +149,61 @@
     if (!ticking) { ticking = true; window.requestAnimationFrame(onScroll); }
   }, { passive: true });
   onScroll();
+
+
+  /* ---------------- hero: the two photo circles drift against each other with the pointer ---------------- */
+  var stage = document.querySelector('[data-stage]');
+  if (stage && !reduce && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    var tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+    var hero = stage.closest('.hero');
+    function tick() {
+      cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
+      stage.style.setProperty('--px', cx.toFixed(3));
+      stage.style.setProperty('--py', cy.toFixed(3));
+      raf = (Math.abs(tx - cx) > 0.002 || Math.abs(ty - cy) > 0.002) ? requestAnimationFrame(tick) : 0;
+    }
+    hero.addEventListener('pointermove', function (e) {
+      var r = stage.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      if (!raf) raf = requestAnimationFrame(tick);
+    });
+    hero.addEventListener('pointerleave', function () { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(tick); });
+  }
+
+  /* ---------------- treatment index: a photo circle follows the pointer over each row ---------------- */
+  var rows = document.querySelectorAll('.tx-row[data-peek]');
+  if (rows.length && !reduce && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    var peek = document.createElement('div');
+    peek.className = 'peek';
+    peek.setAttribute('aria-hidden', 'true');
+    var imgs = {};
+    rows.forEach(function (row) {
+      var src = row.getAttribute('data-peek');
+      if (imgs[src]) return;
+      var im = document.createElement('img');
+      im.src = src; im.alt = ''; im.decoding = 'async';
+      peek.appendChild(im); imgs[src] = im;
+    });
+    document.body.appendChild(peek);
+    var mx = 0, my = 0, px = 0, py = 0, run = 0;
+    function follow() {
+      px += (mx - px) * 0.14; py += (my - py) * 0.14;
+      var w = peek.offsetWidth;
+      peek.style.transform = 'translate3d(' + (px - w / 2) + 'px,' + (py - w / 2) + 'px,0) scale(' + (peek.classList.contains('on') ? 1 : 0.6) + ')';
+      run = (peek.classList.contains('on') || Math.abs(mx - px) > 0.5) ? requestAnimationFrame(follow) : 0;
+    }
+    rows.forEach(function (row) {
+      row.addEventListener('pointerenter', function (e) {
+        Object.keys(imgs).forEach(function (k) { imgs[k].classList.toggle('on', k === row.getAttribute('data-peek')); });
+        if (!peek.classList.contains('on')) { mx = px = e.clientX; my = py = e.clientY; }
+        peek.classList.add('on');
+        if (!run) run = requestAnimationFrame(follow);
+      });
+      row.addEventListener('pointermove', function (e) { mx = e.clientX; my = e.clientY; });
+      row.addEventListener('pointerleave', function () { peek.classList.remove('on'); });
+    });
+  }
 
   if (reduce) return;
 
@@ -166,8 +221,8 @@
   var vh = window.innerHeight;
   function belowFold(el) { return el.getBoundingClientRect().top > vh * 0.92; }
 
-  var singles = '.h2-head, .section-head, .team-intro, .swipe-hint, .split > *, .visit-grid > *, .cta .wrap > *, .contact-grid > .card, .menu-wrap > .wrap, .section-tint .wrap > *, .book-grid > *, .site-footer .legal';
-  var groups = '.cards, .specs, .mini-team, .team, .svc-list, .others, .foot-grid, .amenities';
+  var singles = '.sec-head, .crew-intro, .section-head, .split > *, .visit-grid > *, .cta .wrap > *, .contact-grid > .card, .menu-wrap > .wrap, .section-tint .wrap > *, .book-grid > *, .site-footer .legal';
+  var groups = '.tx, .sp-list, .mini-team, .team, .svc-list, .others, .foot-grid, .amenities';
   var targets = [];
 
   /* groups first: their children glide in one after another */

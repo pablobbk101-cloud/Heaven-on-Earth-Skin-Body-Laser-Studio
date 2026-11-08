@@ -246,12 +246,10 @@ def footer():
     }
 
 
-FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
-         '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-         '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700'
-         '&family=Instrument+Serif:ital@0;1&display=swap">')
+FONTS = ('<link rel="preload" href="fonts/bodoni-moda-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>'
+         '<link rel="preload" href="fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>')
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E"
-           "%3Ccircle cx='38' cy='26' r='24' fill='%231d7a7f'/%3E%3Ccircle cx='22' cy='42' r='16' fill='%23ebe7e3'/%3E%3C/svg%3E")
+           "%3Ccircle cx='38' cy='26' r='24' fill='%231d7a7f'/%3E%3Ccircle cx='22' cy='42' r='16' fill='%23f2c3d1'/%3E%3C/svg%3E")
 
 
 def page(filename, title, description, active, body, scripts=("site.js", "tour.js"), head_extra=""):
@@ -263,7 +261,7 @@ def page(filename, title, description, active, body, scripts=("site.js", "tour.j
 <title>%(title)s | Heaven On Earth (concept)</title>
 <meta name="description" content="%(desc)s">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0f3f43">
+<meta name="theme-color" content="#0b3b40">
 <link rel="icon" href="%(fav)s">
 %(fonts)s
 <link rel="stylesheet" href="styles.css">
@@ -327,7 +325,7 @@ def visit_band(heading="Visit the studio"):
         <li><span class="k">Email</span><a href="mailto:%(email)s">%(email)s</a></li>
         <li class="full"><span class="k">Opening hours</span>%(hours)s<span class="policy">%(policy)s</span></li>
       </ul>
-      <div class="btn-row"><a class="btn btn-light" href="%(dir)s" rel="noopener">Get directions</a><a class="btn btn-line" style="border-color:#fff;color:#fff" href="book.html">Book online</a></div>
+      <div class="btn-row"><a class="btn btn-line" href="%(dir)s" rel="noopener">Get directions</a><a class="btn btn-solid" href="book.html">Book online</a></div>
       %(rating)s
     </div>
     <iframe class="map" title="Map showing %(studio)s" src="%(embed)s" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
@@ -335,7 +333,7 @@ def visit_band(heading="Visit the studio"):
 </section>""" % {
         "heading": heading, "a1": esc(ADDRESS_1), "a2": esc(ADDRESS_2), "tel": PHONE_TEL, "phone": PHONE,
         "wa": WHATSAPP_URL, "whatsapp": WHATSAPP, "email": EMAIL, "dir": MAP_DIRECTIONS, "studio": esc(STUDIO),
-        "embed": MAP_EMBED, "hours": hours_list(), "policy": esc(POLICY), "rating": rating_badge("on-dark"),
+        "embed": MAP_EMBED, "hours": hours_list(), "policy": esc(POLICY), "rating": rating_badge(""),
     }
 
 
@@ -344,7 +342,7 @@ def cta_band(heading="Ready to book?", text="Choose a treatment and a time that 
 <section class="cta">
   <div class="wrap">
     <div><h2>%s</h2><p>%s</p></div>
-    <div class="btn-row"><a class="btn btn-light" href="book.html">Book online</a><a class="btn btn-line" style="border-color:#fff;color:#fff" href="%s" rel="noopener">WhatsApp us</a></div>
+    <div class="btn-row"><a class="btn btn-light" href="book.html">Book online</a><a class="btn btn-line" href="%s" rel="noopener">WhatsApp us</a></div>
   </div>
 </section>""" % (esc(heading), esc(text), WHATSAPP_URL)
 
@@ -359,16 +357,16 @@ def min_price(s):
     return money(str(min(vals))) if vals else None
 
 
-def tcards():
+def tx_rows():
     out=[]
     for s in SERVICES:
         groups=[g[0] for g in s["groups"]][:3]
         mp=min_price(s)
-        out.append('<li><a class="tcard" href="%s"><span class="tcard-img">%s</span><span class="tcard-body"><span class="tcard-name">%s</span>'
-                   '<span class="tcard-groups">%s</span>%s</span></a></li>'
-                   % (s["file"], img(s["img"], lazy=False, alt=""), esc(s["name"]), esc(", ".join(groups)),
-                      ('<span class="tcard-from">From %s</span>' % mp) if mp else '<span class="tcard-from">Ask for a quote</span>'))
-    return '<ul class="cards" aria-label="Treatment areas">%s</ul>' % "".join(out)
+        out.append('<li><a class="tx-row" href="%s" data-peek="%s"><span class="tx-thumb">%s</span><span class="tx-name">%s</span>'
+                   '<span class="tx-groups">%s</span><span class="tx-from">%s</span></a></li>'
+                   % (s["file"], esc(IMG[s["img"]][0]), img(s["img"], alt=""), esc(s["name"]), esc(", ".join(groups)),
+                      ("From %s" % mp) if mp else "Ask for a quote"))
+    return '<ul class="tx" aria-label="Treatment areas">%s</ul>' % "".join(out)
 
 
 def build_home():
@@ -377,54 +375,54 @@ def build_home():
     people = "".join(
         '<li><a href="about.html"><span class="mini-portrait"><img src="%s" width="%d" height="%d" alt="" loading="lazy" decoding="async"></span><span class="mini-nm">%s</span></a></li>'
         % (esc(team_img(n)[0]), team_img(n)[1], team_img(n)[2], esc(n)) for n in TEAM)
-    chip_html = "".join('<a class="chip c%d" href="%s.html"><span>%s</span><b>%s</b></a>'
-                        % (i + 1, slug, esc(label), money(find_row(slug, row)[2])) for i, (slug, row, label) in enumerate(HOME_CHIPS))
     specials = "".join(
-        '<li><div class="spec"><span class="spec-name">%s</span><span class="spec-meta">%s</span><span class="spec-price">%s</span>'
-        '<a class="bk" href="book.html" aria-label="Book %s on Booksy (opens in a new tab)">Book now</a></div></li>'
-        % (esc(r[0]), esc(fmt_dur(r[1])), money(r[2]), esc(r[0])) for r in (find_row("specials", n) for n in HOME_SPECIALS))
+        '<li class="sp-row"><span class="sp-price">%s</span><span class="sp-name">%s<span class="sp-meta">%s</span></span>'
+        '<span class="bk-wrap"><a class="bk" href="book.html" aria-label="Book %s on Booksy (opens in a new tab)">Book now</a></span></li>'
+        % (money(r[2]), esc(r[0]), esc(fmt_dur(r[1])), esc(r[0])) for r in (find_row("specials", n) for n in HOME_SPECIALS))
+    words = '<span class="w1">Heaven</span><span class="w2">on Earth</span>'
     body = """
-<section class="h2-hero">
-  <div class="wrap h2-grid">
-    <div class="h2-copy">
-      <a class="h2-offer" href="%(offer_file)s"><span class="dot" aria-hidden="true"></span>%(offer)s</a>
-      <h1>Heaven On Earth</h1>
-      <p class="strap">Skin, Body, Laser Studio in Ruimsig</p>
+<section class="hero" aria-label="Heaven On Earth">
+  <div class="wrap hero-top">
+    <a class="offer-pill" href="%(offer_file)s"><span class="dot" aria-hidden="true"></span>%(offer)s</a>
+    %(rating)s
+  </div>
+  <div class="stage" data-stage>
+    <div class="disc disc-a">%(hero)s</div>
+    <div class="disc disc-b">%(lash)s</div>
+    <h1 class="wordmark">%(words)s</h1>
+    <div class="wordmark wordmark-inv" aria-hidden="true">%(words)s</div>
+  </div>
+  <div class="wrap hero-foot">
+    <div>
+      <p class="strap">Skin, body and laser studio in Ruimsig</p>
       <p class="lede">With years of experience and continuing education, our dedicated staff are ready to assist with your beauty needs.</p>
-      <div class="btn-row"><a class="btn btn-solid" href="book.html">Book online</a><a class="btn btn-line" href="services.html">See treatments</a></div>
-      %(rating)s
     </div>
-    <div class="h2-visual">
-      <div class="arch">%(hero)s</div>
-      <div class="h2-orb">%(lash)s</div>
-      %(chips)s
-    </div>
+    <div class="hero-actions"><div class="btn-row"><a class="btn btn-solid" href="book.html">Book online</a><a class="btn btn-line" href="services.html">See treatments</a></div></div>
   </div>
 </section>
-<section class="h2-section" aria-labelledby="t-h">
+<section class="section treatments" aria-labelledby="t-h">
   <div class="wrap">
-    <div class="h2-head"><h2 id="t-h">Treatments</h2><a class="text-link" href="services.html">All prices</a></div>
-    <p class="swipe-hint" aria-hidden="true">Swipe to see all five</p>
+    <div class="sec-head"><h2 id="t-h">Treatments</h2><a class="text-link" href="services.html">All prices</a></div>
+    %(tx)s
   </div>
-  <div class="cards-wrap">%(cards)s</div>
 </section>
-<section class="h2-section h2-specials" aria-labelledby="sp-h">
+<section class="section specials" aria-labelledby="sp-h">
   <div class="wrap">
-    <div class="h2-head"><h2 id="sp-h">Specials</h2><a class="text-link" href="specials.html">All specials and packages</a></div>
+    <div class="sec-head"><h2 id="sp-h">Specials</h2><a class="text-link" href="specials.html">All specials and packages</a></div>
+    <ul class="sp-list">%(specials)s</ul>
   </div>
-  <div class="cards-wrap"><ul class="specs">%(specials)s</ul></div>
 </section>
-<section class="h2-section h2-team" aria-labelledby="team-h">
+<section class="section crew" aria-labelledby="team-h">
   <div class="wrap">
-    <div class="h2-head"><h2 id="team-h">Meet the team</h2><a class="text-link" href="about.html">About us</a></div>
-    <p class="team-intro">%(about)s</p>
+    <div class="sec-head"><h2 id="team-h">Meet the team</h2><a class="text-link" href="about.html">About us</a></div>
+    <p class="crew-intro">%(about)s</p>
   </div>
   <ul class="mini-team">%(people)s</ul>
 </section>%(visit)s%(cta)s""" % {
-        "offer": esc(offer_text), "offer_file": offer_file, "rating": rating_badge("in-hero"), "specials": specials,
+        "offer": esc(offer_text), "offer_file": offer_file, "rating": rating_badge(""), "specials": specials,
         "hero": img("facial", lazy=False, alt=ALT["facial"]), "lash": img("lashes", lazy=False),
-        "chips": chip_html, "cards": tcards(), "about": esc(ABOUT_TEXT), "people": people,
-        "visit": visit_band(), "cta": '<div class="home-cta">%s</div>' % cta_band(),
+        "words": words, "tx": tx_rows(), "about": esc(ABOUT_TEXT), "people": people,
+        "visit": visit_band(), "cta": '<div class="home-cta">%s</div>' % cta_band("Book your visit", "Choose a treatment and a time that suits you on Booksy."),
     }
     page("index.html", "Skin, body and laser studio in Ruimsig",
          "Concept website for Heaven On Earth Skin, Body, Laser Studio in Ruimsig, Roodepoort: laser hair removal, skin treatments, lashes, brows and body sculpting.",
@@ -442,7 +440,6 @@ def build_about():
     <div class="split">
       <div>
         <h1>About us</h1>
-        <p class="strap" style="font-family:var(--serif);font-style:italic;font-size:1.7rem;color:var(--teal);margin-bottom:.8em">Who we are</p>
         <p class="lede">%(about)s</p>
         <div class="btn-row"><a class="btn btn-solid" href="book.html">Book online</a><a class="btn btn-line" href="contact.html">Contact us</a></div>
       </div>
