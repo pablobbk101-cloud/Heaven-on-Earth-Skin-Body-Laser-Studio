@@ -5,3 +5,4 @@ README.md
 .agents/
 .claude/
 skills-lock.json
+.hallmark/
