@@ -154,7 +154,7 @@
     var step = STEPS[i];
     document.documentElement.classList.add('touring');
     ui.card.querySelector('#tour-count').textContent = (i + 1) + ' of ' + STEPS.length;
-    ui.card.querySelector('#tour-bar').style.width = Math.round((i + 1) / STEPS.length * 100) + '%';
+    ui.card.querySelector('#tour-bar').style.transform = 'scaleX(' + ((i + 1) / STEPS.length).toFixed(3) + ')';
     ui.card.querySelector('#tour-title').textContent = step.title;
     ui.card.querySelector('#tour-text').textContent = step.text;
     var back = ui.card.querySelector('.tour-back');
