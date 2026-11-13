@@ -2,3 +2,6 @@ tools/
 README.md
 .git
 .gitignore
+.agents/
+.claude/
+skills-lock.json
