@@ -214,15 +214,15 @@ def footer():
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">%(logo)s<p>Skin, Body, Laser Studio<br>%(a1)s<br>%(a2)s</p></div>
-      <div><h4>Treatments</h4><ul>%(svc)s</ul></div>
-      <div><h4>Studio</h4><ul>
+      <div><h2>Treatments</h2><ul>%(svc)s</ul></div>
+      <div><h2>Studio</h2><ul>
         <li><a href="about.html">About us</a></li>
         <li><a href="book.html">Book on Booksy</a></li>
         <li><a href="contact.html">Contact and map</a></li>
-        <li><a href="booking-preview.html">Own booking system (preview)</a></li>
+        <li><a href="booking-preview.html">Booking preview</a></li>
         <li><a href="%(fb)s" rel="noopener">Facebook</a></li>
         <li><a href="%(ig)s" rel="noopener">Instagram</a></li></ul></div>
-      <div><h4>Get in touch</h4><ul>
+      <div><h2>Get in touch</h2><ul>
         <li><a href="tel:%(tel)s">%(phone)s</a></li>
         <li><a href="%(wa)s" rel="noopener">WhatsApp %(whatsapp)s</a></li>
         <li><a href="mailto:%(email)s">%(email)s</a></li></ul>
@@ -230,7 +230,7 @@ def footer():
     </div>
     <div class="legal">
       <p>Concept website by Pablo Lebelo, <a href="https://mrpoint.online">mrpoint.online</a>, <a href="tel:+27604521037">060 452 1037</a>. Not the official site of Heaven On Earth Skin &amp; Body Studio.</p>
-      <p>Treatments and prices are from the studio's Booksy menu (%(checked)s). Text, photos and logo are from its current website.</p>
+      <p>Treatments and prices are from the studio’s Booksy menu (%(checked)s). Text, photos and logo are from its current website.</p>
     </div>
   </div>
 </footer>
@@ -265,7 +265,8 @@ def page(filename, title, description, active, body, scripts=("site.js", "tour.j
 <link rel="icon" href="%(fav)s">
 %(fonts)s
 <link rel="stylesheet" href="styles.css">
-<script>/* skipped page transitions are harmless: keep them out of the error log */
+<script>document.documentElement.classList.add("js");
+/* skipped page transitions are harmless: keep them out of the error log */
 ["pageswap","pagereveal"].forEach(function(n){addEventListener(n,function(e){var v=e.viewTransition;if(v)["ready","finished","updateCallbackDone"].forEach(function(k){v[k]&&v[k].catch&&v[k].catch(function(){})})})});</script>
 %(extra)s
 </head>
@@ -306,8 +307,8 @@ def svc_rows():
     rows = []
     for s in ALL_PAGES:
         rows.append(
-            '<li class="svc-row"><div class="svc-orb">%s</div><div><h3>%s</h3><p>%s</p></div>'
-            '<a class="go btn btn-line" href="%s">See treatments and prices</a></li>'
+            '<li class="svc-row"><div class="svc-orb">%s</div><div><h2>%s</h2><p>%s</p></div>'
+            '<a class="go btn btn-line" href="%s">See prices</a></li>'
             % (img(s["img"], alt=""), esc(s["name"]), esc(s["short"]), s["file"]))
     return '<ul class="svc-list">%s</ul>' % "".join(rows)
 
@@ -383,7 +384,7 @@ def build_home():
     body = """
 <section class="hero" aria-label="Heaven On Earth">
   <div class="wrap hero-top">
-    <a class="offer-pill" href="%(offer_file)s"><span class="dot" aria-hidden="true"></span>%(offer)s</a>
+    <a class="offer-pill" href="%(offer_file)s">%(offer)s</a>
     %(rating)s
   </div>
   <div class="stage" data-stage>
@@ -476,7 +477,7 @@ def menu_rows(slug, gi, subs):
     out = []
     for si, (sub, rows) in enumerate(subs):
         if sub:
-            out.append('<h4 class="menu-sub">%s</h4>' % esc(sub))
+            out.append('<h3 class="menu-sub">%s</h3>' % esc(sub))
         lis = []
         for ri, (name, dur, price, desc) in enumerate(rows):
             label = name if not sub else "%s, %s" % (sub, name)
@@ -501,13 +502,13 @@ def build_service(s, idx):
         else:
             inner = menu_rows(s["slug"], gi, subs)
         if s["tabs"]:
-            panels.append('<div class="tabpanel" role="tabpanel" id="%s" aria-labelledby="tab-%s"><h3 class="panel-title">%s</h3>%s</div>'
+            panels.append('<div class="tabpanel" role="tabpanel" id="%s" aria-labelledby="tab-%s"><h2 class="panel-title">%s</h2>%s</div>'
                           % (pid, pid, esc(title), inner))
             tabs.append('<button class="tab" role="tab" type="button" id="tab-%s" aria-controls="%s" aria-selected="%s" tabindex="%s">%s</button>'
                         % (pid, pid, "true" if gi == 0 else "false", "0" if gi == 0 else "-1", esc(title)))
         else:
             # short pages: every group is visible, no tabs needed
-            panels.append('<div class="group" id="%s"><h3 class="panel-title" style="margin-top:%dpx">%s</h3>%s</div>'
+            panels.append('<div class="group" id="%s"><h2 class="panel-title" style="margin-top:%dpx">%s</h2>%s</div>'
                           % (pid, 0 if gi == 0 else 40, esc(title), inner))
     if s["tabs"]:
         menu = '<div data-tabs><div class="tablist" role="tablist" aria-label="%s treatment groups">%s</div>%s</div>' % (esc(s["name"]), "".join(tabs), "".join(panels))
@@ -622,7 +623,7 @@ def build_book():
       <h2 id="h-when">Pick a date and time</h2>
       <div class="dates" id="dates" role="group" aria-label="Date"></div>
       <div class="slots" id="slots" role="group" aria-label="Time"></div>
-      <p class="form-note" style="margin-top:16px">Sample availability for the demo. A live version would show the studio's real calendar and opening hours.</p>
+      <p class="form-note" style="margin-top:16px">Sample availability for the demo. A live version would show the studio’s real calendar and opening hours.</p>
       <div class="step-actions"><button class="btn btn-line" type="button" id="back-when">Back</button><button class="btn btn-solid" type="button" id="next-when" disabled>Continue to your details</button></div>
     </section>
 
@@ -645,7 +646,7 @@ def build_book():
       </div>
       <div class="done-box" id="done" tabindex="-1" role="status" hidden>
         <h3>That is the demo flow</h3>
-        <p>Nothing was booked or sent. In a live version, this is where the studio's confirmation would appear.</p>
+        <p>Nothing was booked or sent. In a live version, this is where the studio’s confirmation would appear.</p>
         <div class="btn-row"><button class="btn btn-solid" type="button" id="restart">Start again</button><a class="btn btn-line" href="index.html">Back to home</a></div>
       </div>
     </section>

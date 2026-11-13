@@ -1,0 +1,37 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "polish",
+  "scope": "site",
+  "genre": "editorial",
+  "prompt": "skin, body and laser studio in Ruimsig: book a treatment",
+  "waived": [
+   "39b",
+   "49b"
+  ],
+  "fixed": [
+   "7a",
+   "10a",
+   "10b",
+   "11",
+   "26a",
+   "29",
+   "34",
+   "40",
+   "48",
+   "49a",
+   "50",
+   "62",
+   "63"
+  ],
+  "structural": [
+   "44",
+   "58",
+   "59",
+   "77",
+   "78",
+   "79"
+  ],
+  "date": "2026-11-13"
+ }
+]
